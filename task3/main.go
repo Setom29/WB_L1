@@ -4,28 +4,27 @@ package main
 
 import (
 	"fmt"
-	"sync"
 )
 
-func SquaresWithSync(arr []int) int {
-	var waitGroup sync.WaitGroup
+func Squares(arr []int) int {
 	var sum int
-	var mu sync.Mutex
-	for i := range arr {
-		waitGroup.Add(1)
-		go func(i int) {
-			defer waitGroup.Done()
-
-			sum += arr[i] * arr[i]
-		}(i)
-
+	ch := make(chan int)
+	for _, el := range arr {
+		go func(el int) {
+			ch <- el * el
+		}(el)
 	}
-	waitGroup.Wait()
+
+	for range arr {
+		sum += <-ch
+	}
+
+	close(ch)
 	return sum
 }
 
 func main() {
 	arr := []int{2, 4, 6, 8, 10}
-	sum := SquaresWithSync(arr)
+	sum := Squares(arr)
 	fmt.Println(sum)
 }

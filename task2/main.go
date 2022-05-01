@@ -16,7 +16,6 @@ func SquaresWithSync(arr []int) []int {
 			defer waitGroup.Done()
 			arr[i] = arr[i] * arr[i]
 		}(i)
-
 	}
 	waitGroup.Wait()
 	return arr

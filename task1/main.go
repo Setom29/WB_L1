@@ -25,5 +25,4 @@ func main() {
 	human := Human{Name: "John", Age: 35}
 	action := Action{Human: human}
 	action.SayHi()
-
 }
