@@ -13,7 +13,6 @@ import (
 	"os/signal"
 	"strconv"
 	"sync"
-	"syscall"
 	"time"
 )
 
@@ -33,10 +32,11 @@ func Worker(ch chan interface{}, ctx context.Context, num int, wg *sync.WaitGrou
 
 func main() {
 	mainChan := make(chan interface{})
+	// use context lib to stop the workers and close main chan
 	ctx, cancel := context.WithCancel(context.Background())
 	wg := sync.WaitGroup{}
 
-	// Args amount check
+	// args amount check
 	var n int
 	if len(os.Args) == 2 {
 		var err error
@@ -50,21 +50,19 @@ func main() {
 		fmt.Println("Wrong args amount.")
 		return
 	}
-	fmt.Println(n)
+	// start N workers
 	for i := 0; i < n; i++ {
-
 		fmt.Printf("Start Worker%d\n", i)
 		wg.Add(1)
 		go Worker(mainChan, ctx, i, &wg)
 	}
 
-	// Wait for a SIGINT
-	// Stop workers using context when signal is received
+	// stop workers using context lib when signal is received
 	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(signalChan, os.Interrupt)
 	var id int
-	fmt.Println("Start posting.")
 	go func() {
+		fmt.Println("Start posting.")
 		for {
 			select {
 			case signal := <-signalChan:

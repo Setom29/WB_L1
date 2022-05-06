@@ -12,7 +12,6 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-
 	a := big.NewInt(int64(rand.Int63()))
 	b := big.NewInt(int64(rand.Int63()))
 	res := big.NewInt(0)

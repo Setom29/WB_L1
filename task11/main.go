@@ -21,12 +21,15 @@ func main() {
 
 	set1 := make(map[int]bool, len(arr1))
 	set2 := make(map[int]bool, len(arr2))
+	// fill the first set
 	for _, el := range arr1 {
 		set1[el] = true
 	}
+	// fill the second set
 	for _, el := range arr2 {
 		set2[el] = true
 	}
+	// show the intersection
 	fmt.Println(Intersection(set1, set2))
 
 }

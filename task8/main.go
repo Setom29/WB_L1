@@ -8,29 +8,24 @@ import (
 	"strconv"
 )
 
-// changeBit - changes bit in position i
-func changeBit(num int64, pos uint64) int64 {
-	pos -= 1
+// change bit in position i
+func changeBit(num int64, pos uint64) (int64, error) {
+	var mask int64
+	mask = 1 << (pos - 1)
 
-	if hasBit(num, pos) {
-		num &= ^(1 << pos)
-	} else {
-		num |= (1 << pos)
+	if len(fmt.Sprintf("%b", num)) < len(fmt.Sprintf("%b", mask)) {
+		err := fmt.Errorf("In the binary form of a number, there is no digit at the position %d", pos)
+		return 0, err
 	}
-	return num
-}
+	return num ^ mask, nil
 
-// hasBit checks for set or unset bit
-func hasBit(num int64, pos uint64) bool {
-	val := num & (1 << pos)
-	return val > 0
 }
 
 func main() {
 	var num int64
 	var pos uint64
 	var err error
-	// Args validation
+	// args validation
 	if len(os.Args) == 3 {
 		num, err = strconv.ParseInt(os.Args[1], 10, 64)
 		if err != nil {
@@ -46,10 +41,14 @@ func main() {
 		fmt.Println("Wrong args amount")
 		return
 	}
-	// Entered value
-	fmt.Printf("Number: %d\n in bytes: %08b\n", num, num)
+	// entered value
+	fmt.Printf("Number: %d\nBinary form: %b\n", num, num)
 
-	// Changed value
-	changedNum := changeBit(num, pos)
-	fmt.Printf("Number: %d\n in bytes:  %08b\n", changedNum, changedNum)
+	// changed value
+	changedNum, err := changeBit(num, pos)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("Number: %d\nBinary form:  %b\n", changedNum, changedNum)
 }

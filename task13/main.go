@@ -7,6 +7,7 @@ import "fmt"
 func main() {
 	a := 1
 	b := 2
+
 	fmt.Printf("First number: %d\nSecond number: %d\n", a, b)
 	fmt.Println()
 	a, b = b, a

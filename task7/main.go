@@ -7,6 +7,7 @@ import (
 	"sync"
 )
 
+// using sync.Mutex to concurrently write data to the map
 func main() {
 	c := map[int]int{}
 	wg := sync.WaitGroup{}

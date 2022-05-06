@@ -8,6 +8,7 @@ import (
 	"sync"
 )
 
+// get squares using sync lib
 func SquaresWithSync(arr []int) []int {
 	var waitGroup sync.WaitGroup
 	for i := range arr {
@@ -21,6 +22,7 @@ func SquaresWithSync(arr []int) []int {
 	return arr
 }
 
+// get squares using chan
 func SquaresWithChan(c chan int, arr []int) {
 	for i := range arr {
 		c <- arr[i] * arr[i]

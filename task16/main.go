@@ -17,16 +17,16 @@ func customQuickSort(arr []int) {
 }
 
 func partition(arr []int) int {
-	pivot := arr[len(arr)/2]
+	mid := arr[len(arr)/2]
 
 	left := 0
 	right := len(arr) - 1
 
 	for {
-		for ; arr[left] < pivot; left++ {
+		for ; arr[left] < mid; left++ {
 		}
 
-		for ; arr[right] > pivot; right-- {
+		for ; arr[right] > mid; right-- {
 		}
 
 		if left >= right {

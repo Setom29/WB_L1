@@ -16,16 +16,20 @@ import (
 func main() {
 	ch := make(chan int)
 	wg := sync.WaitGroup{}
-
+	// check args amount
 	if len(os.Args) == 1 {
 		fmt.Println("The argument list is empty, the number of seconds is required.")
 		return
 	}
 
-	N, _ := strconv.Atoi(os.Args[1])
+	N, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		fmt.Println("Wrong argument type")
+	}
+	// use context.WithTimeout to stop the program
 	ctx, _ := context.WithTimeout(context.Background(), time.Second*time.Duration(N))
 	wg.Add(1)
-
+	// launch sender goroutine
 	go func() {
 		var i int
 		for {
@@ -44,7 +48,7 @@ func main() {
 	}()
 
 	wg.Add(1)
-
+	// launch reciever goroutine
 	go func() {
 		for num := range ch {
 			fmt.Println("Received data from channel:", num)

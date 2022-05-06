@@ -6,7 +6,8 @@ import (
 	"fmt"
 )
 
-func Squares(arr []int) int {
+// get sum of squares using chan
+func sumOfSquares(arr []int) int {
 	var sum int
 	ch := make(chan int)
 	for _, el := range arr {
@@ -25,6 +26,6 @@ func Squares(arr []int) int {
 
 func main() {
 	arr := []int{2, 4, 6, 8, 10}
-	sum := Squares(arr)
+	sum := sumOfSquares(arr)
 	fmt.Println(sum)
 }
