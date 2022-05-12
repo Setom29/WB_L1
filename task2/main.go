@@ -35,9 +35,9 @@ func main() {
 	c := make(chan int)
 	go SquaresWithChan(c, arr)
 	for val := range c {
-		fmt.Println("Square value sync = ", val)
+		fmt.Println("Square value chan = ", val)
 	}
 	for _, el := range SquaresWithSync(arr) {
-		fmt.Println("Square value chan = ", el)
+		fmt.Println("Square value sync = ", el)
 	}
 }
